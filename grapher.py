@@ -1,22 +1,31 @@
-import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
-def showMeanPlot(df):
-    df = df.groupby("Year").head(8).groupby("Year")["Results"].mean().reset_index()
-    plot(df)
-    
-def showFurthestPlot(df):
-    df = df.groupby("Year")["Results"].max().reset_index()
-    plot(df)
+class Grapher:
+    @staticmethod
+    def showMeanPlot(df):
+        fig = Figure(figsize=(6, 4))
+        ax = fig.add_subplot(111)
+        df = df.groupby("Year").head(8).groupby("Year")["Results"].mean().reset_index()
+        Grapher.plot(df, ax)
+        return fig
 
-def plot(df):
-    plt.plot(df["Year"], df["Results"], marker = "o")
-    plt.xlabel("Year")
-    plt.ylabel("Distance (meters)")
-    plt.grid(True)
-    plt.show()
+    @staticmethod    
+    def showFurthestPlot(df):
+        fig = Figure(figsize=(6, 4))
+        ax = fig.add_subplot(111)
+        df = df.groupby("Year")["Results"].max().reset_index()
+        Grapher.plot(df, ax)
+        return fig
 
+    @staticmethod
+    def plot(df, ax):
+        ax.plot(df["Year"], df["Results"], marker = "o")
+        ax.set_xlabel("Year")
+        ax.set_ylabel("Distance (meters)")
+        ax.grid(True)
 
+"""
 def main():
     df = pd.read_csv("longjumpData.csv")
     showFurthestPlot(df)
@@ -27,3 +36,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+"""
